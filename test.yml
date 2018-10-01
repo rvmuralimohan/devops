@@ -1,0 +1,12 @@
+---
+- hosts: tomcatserver
+  vars:
+    tasks:
+      - name: Verfiy process is running or not
+        shell: ps -ef |grep java | grep tomcat
+        register: output
+      - debug: var=output
+      - fail: 
+          msg: " The system tomcat is not running"
+        when: output.rc != 0
+

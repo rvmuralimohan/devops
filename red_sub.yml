@@ -1,0 +1,18 @@
+---
+  - hosts: tomcatserver
+    var: 
+      CONTRACT: 11449530
+      USERNAME: support-tools
+      PASSWORD: support-tools
+    tasks:
+      - name : Installed nano package
+        shell: subscription-manager list --consumed | grep -e 'Contract' -e 'Pool' -e 'Starts' -e 'Ends' -e 'Active' -e 'Details'
+        register: ouptput 
+      - debug: var=output
+        when: output.rc == 0
+
+      - name: intalled Nano package
+        shell: subscription-manager register --username="{{ $USERNAME }}"  --password="{{ $PASSWORD }}"" --force
+        register: output
+        when: output.rc !=0
+
